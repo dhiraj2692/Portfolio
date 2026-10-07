@@ -345,8 +345,8 @@ function App() {
               </a>
               <a
                 className="resume-link"
-                href="/Dhiraj_Meshram_MERN_Developer_Resume.pdf"
-                download="Dhiraj_Meshram_MERN_Developer_Resume.pdf"
+                href="/Dhiraj_Meshram_MERN_Developer_.pdf"
+                download="Dhiraj_Meshram_MERN_Developer_.pdf"
               >
                 Download resume <ArrowDown size={14} />
               </a>
