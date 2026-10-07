@@ -140,6 +140,60 @@ function App() {
   const [formState, setFormState] = useState("idle");
   const [formMessage, setFormMessage] = useState("");
   useEffect(() => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!finePointer.matches || reducedMotion.matches) return;
+
+    const cursor = document.createElement("div");
+    cursor.className = "custom-cursor";
+    cursor.setAttribute("aria-hidden", "true");
+    cursor.innerHTML = '<span class="custom-cursor__ring"></span><span class="custom-cursor__dot"></span>';
+    document.body.append(cursor);
+
+    const move = (event) => {
+      cursor.style.setProperty("--cursor-x", `${event.clientX}px`);
+      cursor.style.setProperty("--cursor-y", `${event.clientY}px`);
+      cursor.classList.add("is-visible");
+      document.body.style.setProperty("--pointer-x", `${event.clientX}px`);
+      document.body.style.setProperty("--pointer-y", `${event.clientY}px`);
+      document.body.classList.add("has-pointer");
+    };
+    const over = (event) => {
+      if (event.target.closest("a, button, input, textarea, select, [role='button']")) {
+        cursor.classList.add("is-interactive");
+      }
+    };
+    const out = (event) => {
+      if (event.target.closest("a, button, input, textarea, select, [role='button']") &&
+          !event.relatedTarget?.closest?.("a, button, input, textarea, select, [role='button']")) {
+        cursor.classList.remove("is-interactive");
+      }
+    };
+    const hide = () => {
+      cursor.classList.remove("is-visible");
+      document.body.classList.remove("has-pointer");
+    };
+    const press = () => cursor.classList.add("is-pressed");
+    const release = () => cursor.classList.remove("is-pressed");
+
+    document.addEventListener("pointermove", move);
+    document.addEventListener("pointerover", over);
+    document.addEventListener("pointerout", out);
+    document.addEventListener("pointerdown", press);
+    document.addEventListener("pointerup", release);
+    document.addEventListener("pointerleave", hide);
+    return () => {
+      document.removeEventListener("pointermove", move);
+      document.removeEventListener("pointerover", over);
+      document.removeEventListener("pointerout", out);
+      document.removeEventListener("pointerdown", press);
+      document.removeEventListener("pointerup", release);
+      document.removeEventListener("pointerleave", hide);
+      cursor.remove();
+      document.body.classList.remove("has-pointer");
+    };
+  }, []);
+  useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setTypedHeroIntro(heroIntro);
       return;
