@@ -1,0 +1,30 @@
+{
+  "name": "dhiraj-meshram-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:client": "vite --host 0.0.0.0",
+    "dev:server": "node --watch server/index.js",
+    "build": "vite build",
+    "prestart": "npm run build",
+    "start": "node server/index.js",
+    "format": "prettier --write client/src/main.jsx client/src/style.css client/src/professional.css server/index.js vite.config.js client/index.html package.json README.md"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "lucide-react": "^0.468.0",
+    "nodemailer": "^6.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "prettier": "^3.9.9",
+    "vite": "^6.0.7"
+  }
+}
