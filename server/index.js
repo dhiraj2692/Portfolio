@@ -173,4 +173,8 @@ app.use((error, _req, res, next) => {
     error: "The server could not process this request. Please try again later.",
   });
 });
-app.listen(port, () => console.log(`Portfolio API listening on port ${port}`));
+if (require.main === module) {
+  app.listen(port, () => console.log(`Portfolio API listening on port ${port}`));
+}
+
+module.exports = app;
